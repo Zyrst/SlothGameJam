@@ -6,11 +6,15 @@ public class SlothRider : MonoBehaviour {
     public float _speed;
     public float _maxSpeed;
 
+    [HideInInspector]
     public Rigidbody _body;
+    [HideInInspector]
     public bool _addedForce = false;
     Vector3 _lastPos;
     enum dir { left, right };
     dir impulse = dir.left;
+
+    public float travelDist = 10f;
 	// Use this for initialization
 	void Start () {
 	    _body = GetComponent<Rigidbody>();
@@ -26,7 +30,7 @@ public class SlothRider : MonoBehaviour {
             switch (impulse)
             {
                 case dir.left:
-                    if (transform.position.x <= (_lastPos.x - 1f))
+                    if (transform.position.x < (_lastPos.x - travelDist))
                     {
                         float z = _body.velocity.z;
                         _body.velocity = new Vector3(0, 0, z);
@@ -34,17 +38,14 @@ public class SlothRider : MonoBehaviour {
                     }
                     break;
                 case dir.right:
-                    if (transform.position.x >= (_lastPos.x + 1f))
+                    if (transform.position.x > (_lastPos.x + travelDist))
                     {
                         float z = _body.velocity.z;
                         _body.velocity = new Vector3(0, 0, z);
                         _addedForce = false;
                     }
                     break;
-                default:
-                    break;
             }
-            
             
         }
 
@@ -63,6 +64,6 @@ public class SlothRider : MonoBehaviour {
             _lastPos = transform.position;
             impulse = dir.right;
         }
-        
+
 	}
 }

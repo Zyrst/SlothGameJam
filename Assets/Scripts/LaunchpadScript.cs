@@ -14,8 +14,7 @@ public class LaunchpadScript : MonoBehaviour {
 	}
     
     void OnCollisionEnter(Collision col) {
-        GameObject g = col.gameObject;
-        Rigidbody r = g.GetComponent<Rigidbody>();
+        Rigidbody r = col.gameObject.GetComponent<Rigidbody>();
 
         if (r != null) {
             ContactPoint contact = col.contacts[0];
