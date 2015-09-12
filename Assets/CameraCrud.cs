@@ -3,35 +3,31 @@ using System.Collections;
 
 public class CameraCrud : MonoBehaviour {
 
-    public Transform _camTransform;
+    public GameObject _player;
 
-    Vector3 _originalPosition, _targetDestination, _swingNormal, _swingVelocity;
-    float _shakeAmount, _decreaseRate, counter;
+    Vector3 _targetDestination, _swingNormal, _swingVelocity, _shakeDelta, _swingDelta;
+    float _shakeAmount, _decreaseRate;
 
 	// Use this for initialization
 	void Start () {
+        transform.position = _player.transform.position;
+
         // Shake
-        _originalPosition = _camTransform.localPosition;
-	    _camTransform = GetComponent(typeof(Transform)) as Transform;
         _shakeAmount = 0f;
         _decreaseRate = 0f;
 
-        //Shake(0.5f, 0.3f);
-
         // Swing
-        _targetDestination = _originalPosition;
+        _targetDestination = _player.transform.position;
         _swingNormal = new Vector3();
         _swingVelocity = new Vector3();
+
+        //Shake(0.5f, 0.1f);
 	}
 	
 	// Update is called once per frame
-	void Update () {
-        if (counter > 600) {
-            Swing(Random.insideUnitSphere * 5);
-        }
-
-        counter++;
-
+	void LateUpdate () {
+        // Move camera with player
+        transform.position = _player.transform.position + _shakeDelta + _swingDelta;
         UpdateShake();
         UpdateSwing();
 	}
@@ -49,7 +45,7 @@ public class CameraCrud : MonoBehaviour {
         // Shake
         if (_shakeAmount > 0f)
         {
-            _camTransform.localPosition = _originalPosition + Random.insideUnitSphere * _shakeAmount;
+            _shakeDelta = Random.insideUnitSphere * _shakeAmount;
             _shakeAmount -= Time.deltaTime * _decreaseRate;
         }
 
@@ -60,12 +56,6 @@ public class CameraCrud : MonoBehaviour {
     }
 
     void UpdateSwing () {
-        Vector3 distance = _targetDestination - _camTransform.localPosition;
-        float distanceFloat = Vector3.Distance(_targetDestination, _camTransform.localPosition);
-
-        _swingVelocity += distance.normalized * distanceFloat * Time.deltaTime;
-        _swingVelocity -= new Vector3(2, 2, 2) * Time.deltaTime;
-
-        _camTransform.localPosition += _swingVelocity * Time.deltaTime;
+        
     }
 }
