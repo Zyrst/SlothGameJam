@@ -52,17 +52,22 @@ public class SlothRider : MonoBehaviour {
 
         if (Input.GetKeyDown(KeyCode.A) && transform.position.x >= -1f)
         {
-            _body.AddForce(-10f, 0, 0, ForceMode.Impulse);
+            _body.AddForce(new Vector3(-10f, 0, 0), ForceMode.Impulse);
             _addedForce = true;
             _lastPos = transform.position;
             impulse = dir.left;
         }
         if (Input.GetKeyDown(KeyCode.D) && transform.position.x <= 1f)
         {
-            _body.AddForce(10f, 0, 0, ForceMode.Impulse);
+            _body.AddForce(new Vector3(10f, 0, 0), ForceMode.Impulse);
             _addedForce = true;
             _lastPos = transform.position;
             impulse = dir.right;
+        }
+
+        if(Input.GetKeyDown(KeyCode.Space))
+        {
+            _body.AddForce(new Vector3(0, 5f, 0), ForceMode.Impulse);
         }
 
 	}
