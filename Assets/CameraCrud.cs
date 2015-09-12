@@ -5,7 +5,7 @@ public class CameraCrud : MonoBehaviour {
 
     public GameObject _player;
 
-    Vector3 _targetDestination, _swingNormal, _swingVelocity, _shakeDelta, _swingDelta;
+    Vector3 _targetDestination, _swingNormal, _swingVelocity, _shakeDelta, _swingDelta, _targetPosition;
     float _shakeAmount, _decreaseRate;
 
 	// Use this for initialization
@@ -27,7 +27,7 @@ public class CameraCrud : MonoBehaviour {
 	// Update is called once per frame
 	void LateUpdate () {
         // Move camera with player
-        transform.position = _player.transform.position + _shakeDelta + _swingDelta;
+        transform.position = _player.transform.position + _shakeDelta;
         UpdateShake();
         UpdateSwing();
 	}
@@ -56,6 +56,7 @@ public class CameraCrud : MonoBehaviour {
     }
 
     void UpdateSwing () {
-        
+        Vector3 velocity = _player.GetComponent<Rigidbody>().velocity;
+        _swingDelta += velocity.normalized * 0.1f;
     }
 }
