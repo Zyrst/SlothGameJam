@@ -9,8 +9,6 @@ public class ExplosionScript : MonoBehaviour {
 	public float _startEmissionRate;
 
 
-
-
 	// Use this for initialization
 	void Start () {
 

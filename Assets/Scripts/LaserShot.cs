@@ -3,7 +3,6 @@ using System.Collections;
 
 public class LaserShot : MonoBehaviour
 {
-    public GameObject followObject;
 
     // Use this for initialization
     void Start()
@@ -14,10 +13,7 @@ public class LaserShot : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (followObject != null)
-        {
-            GetComponent<Transform>().position = followObject.GetComponent<Transform>().position;
-        }
+		GetComponent<Transform>().position = GetComponentInParent<Transform>().position;
 
     }
 }
