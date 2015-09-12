@@ -15,16 +15,21 @@ public class SlothRider : MonoBehaviour {
     dir impulse = dir.left;
 
     public float travelDist = 10f;
+    public float distToGround;
+
+
 	// Use this for initialization
 	void Start () {
 	    _body = GetComponent<Rigidbody>();
+        distToGround = GetComponent<Collider>().bounds.extents.y;
+        _lastPos = Vector3.zero;
 	}
 	
 	// Update is called once per frame
 	void Update () {
         if(_body.velocity.z <= _maxSpeed)
             _body.AddForce(new Vector3(0, 0, _speed * Time.deltaTime), ForceMode.Acceleration);
-
+           
         if (_addedForce)
         {
             switch (impulse)
@@ -50,14 +55,14 @@ public class SlothRider : MonoBehaviour {
         }
 
 
-        if (Input.GetKeyDown(KeyCode.A) && transform.position.x >= -1f)
+        if (Input.GetKeyDown(KeyCode.A) && transform.position.x >= -1f && _body.velocity.x == 0)
         {
             _body.AddForce(new Vector3(-10f, 0, 0), ForceMode.Impulse);
             _addedForce = true;
             _lastPos = transform.position;
             impulse = dir.left;
         }
-        if (Input.GetKeyDown(KeyCode.D) && transform.position.x <= 1f)
+        if (Input.GetKeyDown(KeyCode.D) && transform.position.x <= 1f && _body.velocity.x == 0)
         {
             _body.AddForce(new Vector3(10f, 0, 0), ForceMode.Impulse);
             _addedForce = true;
@@ -65,10 +70,33 @@ public class SlothRider : MonoBehaviour {
             impulse = dir.right;
         }
 
-        if(Input.GetKeyDown(KeyCode.Space))
+        if(Input.GetKeyDown(KeyCode.W))
+        {
+            Debug.Log("Fire the lazer");
+            new LaserShot();
+        }
+
+        if(Input.GetKeyDown(KeyCode.Space) && OnGround())
         {
             _body.AddForce(new Vector3(0, 5f, 0), ForceMode.Impulse);
         }
-
 	}
+
+    public bool OnGround()
+    {
+        RaycastHit hit = new RaycastHit();
+        Ray ray = new Ray(transform.position, -Vector3.up + new Vector3(0 , 0.1f, 0));
+        Debug.DrawRay(transform.position, -Vector3.up + new Vector3(0, 0.1f, 0),Color.red, 10f);
+        if (Physics.Raycast(ray, out hit, distToGround + 0.1f))
+        {
+            try
+            {
+                return true;
+            }
+            catch (System.NullReferenceException) { return false; }
+        }
+        else
+            return false;
+            
+    }
 }
