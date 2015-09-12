@@ -17,6 +17,7 @@ public class SlothRider : MonoBehaviour {
     public float travelDist = 10f;
     public float distToGround;
 
+
 	// Use this for initialization
 	void Start () {
 	    _body = GetComponent<Rigidbody>();
@@ -79,7 +80,6 @@ public class SlothRider : MonoBehaviour {
         {
             _body.AddForce(new Vector3(0, 5f, 0), ForceMode.Impulse);
         }
-
 	}
 
     public bool OnGround()
