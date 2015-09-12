@@ -18,7 +18,7 @@ public class SlothRider : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        if(_body.velocity.z < _maxSpeed)
+        if(_body.velocity.z <= _maxSpeed)
             _body.AddForce(new Vector3(0, 0, _speed * Time.deltaTime), ForceMode.Acceleration);
 
         if (_addedForce)
@@ -34,7 +34,7 @@ public class SlothRider : MonoBehaviour {
                     }
                     break;
                 case dir.right:
-                    if (transform.position.x <= (_lastPos.x + 1f))
+                    if (transform.position.x >= (_lastPos.x + 1f))
                     {
                         float z = _body.velocity.z;
                         _body.velocity = new Vector3(0, 0, z);
@@ -47,16 +47,16 @@ public class SlothRider : MonoBehaviour {
             
             
         }
-        
 
-        if(Input.GetKeyDown(KeyCode.A))
+
+        if (Input.GetKeyDown(KeyCode.A) && transform.position.x >= -1f)
         {
             _body.AddForce(-10f, 0, 0, ForceMode.Impulse);
             _addedForce = true;
             _lastPos = transform.position;
             impulse = dir.left;
         }
-        if (Input.GetKeyDown(KeyCode.D))
+        if (Input.GetKeyDown(KeyCode.D) && transform.position.x <= 1f)
         {
             _body.AddForce(10f, 0, 0, ForceMode.Impulse);
             _addedForce = true;
