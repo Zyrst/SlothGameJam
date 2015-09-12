@@ -32,13 +32,20 @@ public class SlothRider : MonoBehaviour {
 	// Update is called once per frame
     void Update()
     {
+        Debug.Log(_body.velocity.z);
         if (_body.velocity.z <= _maxSpeed)
-            _body.AddForce(new Vector3(0, 0, _speed * Time.deltaTime), ForceMode.Acceleration);
-        if (!_addedForce && _body.velocity.x > 0f)
         {
-            Debug.Log("Set velocity");
-            _body.velocity.Set(0, _body.velocity.y, _body.velocity.z);
+            _body.AddForce(new Vector3(0, 0, _speed * Time.deltaTime), ForceMode.Acceleration);
         }
+            
+
+        if (_body.velocity.z > _maxSpeed)
+        {
+            _body.velocity *= 0.9f;
+            
+        }
+            
+    
         if (_addedForce)
         {
             switch (impulse)
