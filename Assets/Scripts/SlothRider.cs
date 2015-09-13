@@ -110,9 +110,9 @@ public class SlothRider : MonoBehaviour {
                 impulse = dir.right;
             }
 
-            if(Input.GetKeyDown(KeyCode.S))
+            if(Input.GetKey(KeyCode.S))
             {
-                _body.AddForce(new Vector3(0f, -10f, 0f), ForceMode.Impulse);
+                _body.AddForce(new Vector3(0f, -3f, 0f), ForceMode.Impulse);
             }
 
             if (Input.GetKeyDown(KeyCode.W))

@@ -15,8 +15,8 @@ public class DirectionalLightScript : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 
-		Vector3 newRot = new Vector3((_rotationspeed*Time.deltaTime),(_rotationspeed*Time.deltaTime) , (_rotationspeed*Time.deltaTime));
-		transform.Rotate (newRot);
+		//Vector3 newRot = new Vector3((_rotationspeed*Time.deltaTime),(_rotationspeed*Time.deltaTime) , (_rotationspeed*Time.deltaTime));
+		//transform.Rotate (newRot);
 	
 	}
 }
