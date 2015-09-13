@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Linq;
 
 public class SlothRider : MonoBehaviour {
 
@@ -19,88 +20,98 @@ public class SlothRider : MonoBehaviour {
     public float _distToGround;
     float xPos;
 
+    public bool _dead = false;
 
 	// Use this for initialization
 	void Start () {
-	    _body = GetComponent<Rigidbody>();
+       
+	}
+
+    void OnEnable()
+    {
+        _body = GetComponent<Rigidbody>();
         _distToGround = GetComponent<Collider>().bounds.extents.y;
         _lastPos = Vector3.zero;
         _startPos = transform.position;
         xPos = transform.position.x;
-        GameObject.Find("SlothEnemy").GetComponent<Transform>().position = new Vector3(0f, -8.83f, 5f);
-	}
+        
+    }
 	
 	// Update is called once per frame
     void Update()
     {
-        //Debug.Log(_body.velocity.z);
-        if (_body.velocity.z <= _maxSpeed)
+        if (!_dead)
         {
-            _body.AddForce(new Vector3(0, 0, _speed * Time.deltaTime), ForceMode.Acceleration);
-        }
-            
-
-        if (_body.velocity.z > _maxSpeed + 50f)
-        {
-            _body.velocity *= 0.9f;
-            
-        }
-            
-    
-        if (_addedForce)
-        {
-            switch (impulse)
+            //Debug.Log(_body.velocity.z);
+            if (_body.velocity.z <= _maxSpeed)
             {
-                case dir.left:
-                    xPos = Mathf.Lerp(xPos, xPos - _travelDist, Time.deltaTime);
-                    if (transform.position.x <= (_lastPos.x - _travelDist))
-                    {
-                        _addedForce = false;
-                        xPos = Mathf.Round(xPos);
-                    }
-                    break;
-                case dir.right:
-                    xPos = Mathf.Lerp(xPos, xPos + _travelDist, Time.deltaTime * 2f);
-                    if (transform.position.x >= (_lastPos.x + _travelDist))
-                    {
-                        _addedForce = false;
-                        xPos = Mathf.Round(xPos);
-                    }
-                    break;
+                _body.AddForce(new Vector3(0, 0, _speed * Time.deltaTime), ForceMode.Acceleration);
             }
 
+
+            if (_body.velocity.z > _maxSpeed + 50f)
+            {
+                _body.velocity *= 0.9f;
+
+            }
+
+
+            if (_addedForce)
+            {
+                switch (impulse)
+                {
+                    case dir.left:
+                        xPos = Mathf.Lerp(xPos, xPos - _travelDist, Time.deltaTime);
+                        if (transform.position.x <= (_lastPos.x - _travelDist))
+                        {
+                            _addedForce = false;
+                            xPos = Mathf.Round(xPos);
+                        }
+                        break;
+                    case dir.right:
+                        xPos = Mathf.Lerp(xPos, xPos + _travelDist, Time.deltaTime * 2f);
+                        if (transform.position.x >= (_lastPos.x + _travelDist))
+                        {
+                            _addedForce = false;
+                            xPos = Mathf.Round(xPos);
+                        }
+                        break;
+                }
+
+            }
+
+
+            if (Input.GetKeyDown(KeyCode.A) && transform.position.x > (_startPos.x - _travelDist) && !_addedForce)
+            {
+                _addedForce = true;
+                _lastPos = transform.position;
+                impulse = dir.left;
+            }
+            if (Input.GetKeyDown(KeyCode.D) && transform.position.x < (_startPos.x + _travelDist) && !_addedForce)
+            {
+                _addedForce = true;
+                _lastPos = transform.position;
+                impulse = dir.right;
+            }
+
+            if (Input.GetKeyDown(KeyCode.W))
+            {
+                Debug.Log("Fire the lazer");
+            }
+
+            if (Input.GetKeyDown(KeyCode.Space) && OnGround())
+            {
+                _body.AddForce(new Vector3(0, 5f, 0), ForceMode.Impulse);
+            }
+
+
+            Vector3 pos = transform.position;
+            pos.x = xPos;
+            transform.position = pos;
+
+            if (CheckOutofBounds())
+                Kill();
         }
-
-
-        if (Input.GetKeyDown(KeyCode.A) && transform.position.x > (_startPos.x - _travelDist) && !_addedForce)
-        {
-            _addedForce = true;
-            _lastPos = transform.position;
-            impulse = dir.left;
-        }
-        if (Input.GetKeyDown(KeyCode.D) && transform.position.x < (_startPos.x + _travelDist) && !_addedForce)
-        {
-            _addedForce = true;
-            _lastPos = transform.position;
-            impulse = dir.right;
-        }
-
-        if (Input.GetKeyDown(KeyCode.W))
-        {
-            Debug.Log("Fire the lazer");
-        }
-
-        if (Input.GetKeyDown(KeyCode.Space) && OnGround())
-        {
-            _body.AddForce(new Vector3(0, 5f, 0), ForceMode.Impulse);
-        }
-
-
-        Vector3 pos = transform.position;
-        pos.x = xPos;
-        transform.position = pos;
-
-
     }
 
     public bool OnGround()
@@ -121,9 +132,32 @@ public class SlothRider : MonoBehaviour {
             
     }
     
+
+    public bool CheckOutofBounds()
+    {
+        return transform.position.y <= -300;
+    }
+
     public void Kill()
     {
+        _dead = true;   //Fuck doing updates
         Debug.Log("Dead sloth rider");
+        _body.useGravity = false;   //Make it hover
+        _body.velocity = new Vector3(0, 0, 0);  //Reset physics
+        _body.angularVelocity = new Vector3(0, 0, 0);
+        gameObject.GetComponentsInChildren<Canvas>(true).FirstOrDefault(x => x.name == "DeadMenu").gameObject.SetActive(true);
+        
     }
    
+    public void Reset()
+    {
+        transform.position = Vector3.zero;  //Set it in Zero (doesn't work on X : S)
+        _body.useGravity = true;
+        GetComponent<ScoreComponentScript>().resetScore(); 
+
+        gameObject.GetComponentsInChildren<Canvas>(true).FirstOrDefault(x => x.name == "DeadMenu").gameObject.SetActive(false);
+        _dead = false;
+        
+    }
+
 }
