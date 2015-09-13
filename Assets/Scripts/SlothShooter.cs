@@ -6,7 +6,6 @@ public class SlothShooter : MonoBehaviour {
     public float _projectileSpeed = 50;
     public float _fireDelay = 1;
     float _fireTimer = 0;
-    public Camera camera;
 
     public GameObject _projectile;
 
@@ -29,7 +28,8 @@ public class SlothShooter : MonoBehaviour {
             */
 
             GameObject g = Instantiate(_projectile);
-            g.transform.position = transform.position + new Vector3(0, 0, 2);
+            g.transform.position = transform.position + new Vector3(0, 0.3f, 2);
+            g.GetComponent<ProjectileScript>().setPlayer(transform.gameObject);
             Rigidbody r = g.GetComponent<Rigidbody>();
             r.velocity = transform.GetComponent<Rigidbody>().velocity;
             r.AddForce(0, 0, _projectileSpeed, ForceMode.Impulse);
