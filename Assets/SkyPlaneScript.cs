@@ -15,7 +15,7 @@ public class SkyPlaneScript : MonoBehaviour {
 	void Start () {
 	
 		_rotationspeed = 0.4f;
-		maxPulse = 0.7f;
+		maxPulse = 0.47244094488f;
 		pulse = 0f;
 		maxScale = 2.02f;
 		normalScale = 2f;
