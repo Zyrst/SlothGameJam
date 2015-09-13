@@ -3,6 +3,8 @@ using System.Collections;
 
 public class SlothEnemy : MonoBehaviour {
 
+    public GameObject _blood;
+
 	// Use this for initialization
 	void Start () {
 	
@@ -21,6 +23,7 @@ public class SlothEnemy : MonoBehaviour {
     public void Kill()
     {
         GameObject.Find("ScoreComponent").GetComponent<ScoreComponentScript>().increaseScore();
+        Instantiate(_blood).transform.position = transform.position;
     }
 
     void OnCollisionEnter(Collision col)
