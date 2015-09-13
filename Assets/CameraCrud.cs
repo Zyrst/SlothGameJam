@@ -30,9 +30,15 @@ public class CameraCrud : MonoBehaviour {
         transform.position = _player.transform.position + _shakeDelta;
         UpdateShake();
         UpdateSwing();
+
+		float temp = _player.GetComponent<Rigidbody>().velocity.z / _player.GetComponent<SlothRider>()._maxSpeed;
+		Shake(temp/5f,0);
+
+
+		//GetComponent<
 	}
 
-    void Shake (float shakeAmount, float decreaseRate) {
+    public void Shake (float shakeAmount, float decreaseRate) {
         _shakeAmount = shakeAmount;
         _decreaseRate = decreaseRate;
     }
@@ -45,7 +51,8 @@ public class CameraCrud : MonoBehaviour {
         // Shake
         if (_shakeAmount > 0f)
         {
-            _shakeDelta = Random.insideUnitSphere * _shakeAmount;
+            //_shakeDelta = ((Random.insideUnitSphere)+new Vector3(0,25f,-50f)) * _shakeAmount;
+			_shakeDelta = ((Random.insideUnitSphere)+new Vector3(0,10f,0.5f)) * _shakeAmount;
             _shakeAmount -= Time.deltaTime * _decreaseRate;
         }
 

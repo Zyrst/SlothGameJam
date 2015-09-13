@@ -13,8 +13,8 @@ public class FartRender : MonoBehaviour {
     void Start() {
 
         _distanceFromPlayer = 500f;
-		_minspeed = 150f;
-		_maxspeed = 600f;
+		_minspeed = 300f;
+		_maxspeed = 1000f;
 		_startcolor = GetComponent<ParticleSystem> ().startColor;
 
     }
@@ -37,7 +37,6 @@ public class FartRender : MonoBehaviour {
         Vector3 tempPos = _player.transform.position;
         tempPos.z += _distanceFromPlayer;
         transform.position = tempPos;
-
     }
 }
 
