@@ -34,7 +34,6 @@ public class SlothRider : MonoBehaviour {
         _lastPos = Vector3.zero;
         _startPos = transform.position;
         xPos = transform.position.x;
-        
     }
 	
 	// Update is called once per frame
@@ -62,10 +61,19 @@ public class SlothRider : MonoBehaviour {
                 {
                     case dir.left:
                         xPos = Mathf.Lerp(xPos, xPos - _travelDist, Time.deltaTime);
+                        
                         if (transform.position.x <= (_lastPos.x - _travelDist))
                         {
                             _addedForce = false;
-                            xPos = Mathf.Round(xPos);
+                            float x = Mathf.Floor(xPos);
+                            if(x == 0 || x == -1)
+                            {
+                                xPos = 0f;
+                            }
+                            else
+                            {
+                                xPos = -_travelDist;
+                            }
                         }
                         break;
                     case dir.right:
@@ -73,7 +81,15 @@ public class SlothRider : MonoBehaviour {
                         if (transform.position.x >= (_lastPos.x + _travelDist))
                         {
                             _addedForce = false;
-                            xPos = Mathf.Round(xPos);
+                            float x = Mathf.Floor(xPos);
+                            if (x == 0 || x == -1 )
+                            {
+                                xPos = 0f;
+                            }
+                            else
+                            {
+                                xPos = _travelDist;
+                            }
                         }
                         break;
                 }
@@ -107,6 +123,7 @@ public class SlothRider : MonoBehaviour {
             if (Input.GetKeyDown(KeyCode.Space) && OnGround())
             {
                 _body.AddForce(new Vector3(0, 5f, 0), ForceMode.Impulse);
+                Sounds.OneShot(Sounds.Instance._sounds._jump);
             }
 
 
@@ -116,6 +133,15 @@ public class SlothRider : MonoBehaviour {
 
             if (CheckOutofBounds())
                 Kill();
+
+            if(_body.velocity.z <= 0)
+            {
+                Kill();
+            }
+        }
+        if (_dead)
+        {
+            _body.velocity = new Vector3(0, 0, 0);
         }
     }
 
@@ -156,10 +182,12 @@ public class SlothRider : MonoBehaviour {
    
     public void Reset()
     {
-        transform.position = Vector3.zero;  //Set it in Zero (doesn't work on X : S)
+        transform.position = new Vector3(0, 0, 0);
+        GameObject.Find("Game").GetComponent<Game>()._cameras[0].gameObject.transform.position = new Vector3(0, 0, 0);
+        _body.velocity += new Vector3(0, 0, 1);
         _body.useGravity = true;
-        GetComponent<ScoreComponentScript>().resetScore(); 
-
+        GetComponent<ScoreComponentScript>().resetScore();
+        xPos = 0f;
         gameObject.GetComponentsInChildren<Canvas>(true).FirstOrDefault(x => x.name == "DeadMenu").gameObject.SetActive(false);
         _dead = false;
         

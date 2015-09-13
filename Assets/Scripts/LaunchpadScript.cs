@@ -16,7 +16,7 @@ public class LaunchpadScript : MonoBehaviour {
     
     void OnCollisionEnter(Collision col) {
         Rigidbody r = col.gameObject.GetComponent<Rigidbody>();
-
+        
         if (r != null) {
             ContactPoint contact = col.contacts[0];
             r.AddForceAtPosition(-contact.normal * _force, transform.position);
@@ -27,7 +27,7 @@ public class LaunchpadScript : MonoBehaviour {
     void OnTriggerEnter(Collider col) {
         Debug.Log(col);
         Rigidbody r = col.gameObject.GetComponent<Rigidbody>();
-
+        Sounds.OneShot(Sounds.Instance._sounds._speedBoost);
         if (r != null) {
             r.AddForceAtPosition(_launchDir.normalized * _force, transform.position);
         }

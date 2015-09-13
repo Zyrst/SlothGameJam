@@ -10,7 +10,7 @@ public class ProjectileScript : MonoBehaviour {
 	void Start () {
         if (_explosionPrefab == null)
             Debug.LogError("You forgot explosion prefab reference. You dofus!");
-	
+        Sounds.OneShot(Sounds.Instance._sounds._lazer);
 	}
 	
 	// Update is called once per frame
@@ -21,6 +21,7 @@ public class ProjectileScript : MonoBehaviour {
 
     void OnCollisionEnter(Collision collision) {
         Instantiate(_explosionPrefab, transform.position, Quaternion.identity);
+        Sounds.OneShot(Sounds.Instance._sounds._explosion);
 		Destroy(this.transform.gameObject);
     }
 

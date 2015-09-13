@@ -24,16 +24,18 @@ public class SlothEnemy : MonoBehaviour {
     {
         GameObject.Find("ScoreComponent").GetComponent<ScoreComponentScript>().increaseScore();
         Instantiate(_blood).transform.position = transform.position;
+        Sounds.OneShot(Sounds.Instance._sounds._deadSloth);
+        Destroy(gameObject);
     }
 
     void OnCollisionEnter(Collision col)
     {
         if(col.gameObject.name == "SlothRider")
         {
-            Debug.Log("hit by player");
             col.gameObject.GetComponent<SlothRider>().Kill();
+            Kill();
         }
-        else if(col.gameObject.name == "Projectile")
+        else if(col.gameObject.name == "Projectile(Clone)")
         {
             Kill();
         }
