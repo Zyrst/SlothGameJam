@@ -28,6 +28,7 @@ public class LevelPieceScript : MonoBehaviour {
     }
 
     void OnTriggerExit(Collider other) {
-        _generator.passedPiece(this);
+        if (other.GetComponent<SlothRider>())
+            _generator.passedPiece(this);
     }
 }

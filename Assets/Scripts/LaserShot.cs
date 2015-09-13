@@ -13,7 +13,7 @@ public class LaserShot : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-		GetComponent<Transform>().position = GetComponentInParent<Transform>().position;
-
+        transform.position = transform.parent.position;
+		//GetComponent<Transform>().position = GetComponentInParent<Transform>().position;
     }
 }
