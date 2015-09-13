@@ -27,19 +27,20 @@ public class SlothRider : MonoBehaviour {
         _lastPos = Vector3.zero;
         _startPos = transform.position;
         xPos = transform.position.x;
+        GameObject.Find("SlothEnemy").GetComponent<Transform>().position = new Vector3(0f, -8.83f, 5f);
 	}
 	
 	// Update is called once per frame
     void Update()
     {
-        Debug.Log(_body.velocity.z);
+        //Debug.Log(_body.velocity.z);
         if (_body.velocity.z <= _maxSpeed)
         {
             _body.AddForce(new Vector3(0, 0, _speed * Time.deltaTime), ForceMode.Acceleration);
         }
             
 
-        if (_body.velocity.z > _maxSpeed)
+        if (_body.velocity.z > _maxSpeed + 50f)
         {
             _body.velocity *= 0.9f;
             
@@ -119,16 +120,10 @@ public class SlothRider : MonoBehaviour {
             return false;
             
     }
-
-    IEnumerator Move(float offSet)
+    
+    public void Kill()
     {
-        float t = 0f;
-        while(t < 1)
-        {
-            t += Time.deltaTime;
-           
-            yield return null;
-        }
+        Debug.Log("Dead sloth rider");
     }
    
 }
