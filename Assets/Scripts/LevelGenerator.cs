@@ -12,6 +12,8 @@ public class LevelGenerator : MonoBehaviour {
     Object[] _levelPieces;
     GameObject _currentPiece;
     List<GameObject> _activeObjects = new List<GameObject>();
+	public GameObject _lava;
+
 
 	// Use this for initialization
 	void Start () {

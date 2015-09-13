@@ -5,11 +5,11 @@ public class SkyPlaneScript : MonoBehaviour {
 
 	public float _rotationspeed;
 
-	public float maxPulse = 0.7f;
-	public float pulse = 0f;
-	public float maxScale = 1000f;
-	public float normalScale = 1f;
-	public float scale = 1f;
+	public float maxPulse;
+	public float pulse;
+	public float maxScale;
+	public float normalScale;
+	public float scale;
 
 	// Use this for initialization
 	void Start () {
@@ -17,9 +17,9 @@ public class SkyPlaneScript : MonoBehaviour {
 		_rotationspeed = 0.4f;
 		maxPulse = 0.7f;
 		pulse = 0f;
-		maxScale = 1.01f;
-		normalScale = 1f;
-		scale = 1f;
+		maxScale = 2.02f;
+		normalScale = 2f;
+		scale = 2f;
 	}
 	
 	// Update is called once per frame

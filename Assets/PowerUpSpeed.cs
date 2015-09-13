@@ -6,7 +6,7 @@ public class PowerUpSpeed : PowerParent  {
 
     public override void Activate()
     {
-        _player.GetComponent<Rigidbody>().velocity += new Vector3(0,0,60f);
+        _player.GetComponent<Rigidbody>().velocity += new Vector3(0,0,160f);
         base.Activate();
     }
 
