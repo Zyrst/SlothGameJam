@@ -4,7 +4,7 @@ using System.Collections;
 public class SlothShooter : MonoBehaviour {
 
     public float _projectileSpeed = 50;
-    public float _fireDelay = 1;
+    public float _fireDelay = 0.5f;
     float _fireTimer = 0;
 
     public GameObject _projectile;
@@ -33,6 +33,8 @@ public class SlothShooter : MonoBehaviour {
             Rigidbody r = g.GetComponent<Rigidbody>();
             r.velocity = transform.GetComponent<Rigidbody>().velocity;
             r.AddForce(0, 0, _projectileSpeed, ForceMode.Impulse);
+
+			GameObject.Find("ScoreComponent").GetComponent<ScoreComponentScript>().increaseScore();
 
             _fireTimer = _fireDelay;
         } 

@@ -21,6 +21,7 @@ public class LevelGenerator : MonoBehaviour {
             Debug.LogError("PLAYER REFERENCE CANNOT BE NULL");
 
         _levelPieces = Resources.LoadAll("Level/Regular");
+
         Reset();
         
     }
