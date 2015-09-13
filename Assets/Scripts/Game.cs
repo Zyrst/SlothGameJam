@@ -39,18 +39,17 @@ public class Game : MonoBehaviour {
     {
         _cameras[0].gameObject.SetActive(false);
         _cameras[1].gameObject.SetActive(true);
-        try
-        {
-            GetComponentsInChildren<Canvas>(true).FirstOrDefault(x => x.name == "Canvas").gameObject.SetActive(true);
-            
-        }
-        catch (System.NullReferenceException) { }
-        _slothRider.transform.position = new Vector3(0, 0, 0);
-        _slothRider.SetActive(false);
+        GetComponentsInChildren<Canvas>(true).FirstOrDefault(x => x.name == "Canvas").gameObject.SetActive(true);
 
-        
+        _slothRider.transform.position = Vector3.zero;
+        _slothRider.SetActive(false);
 
     }
 
+    public void Exit()
+    {
+
+        Application.Quit();
+    }
 
 }
