@@ -43,7 +43,6 @@ public class Game : MonoBehaviour {
 
         _slothRider.transform.position = Vector3.zero;
         _slothRider.SetActive(false);
-
     }
 
     public void Exit()
