@@ -186,8 +186,8 @@ public class SlothRider : MonoBehaviour {
         GameObject.Find("Game").GetComponent<Game>()._cameras[0].gameObject.transform.position = new Vector3(0, 0, 0);
         _body.velocity += new Vector3(0, 0, 1);
         _body.useGravity = true;
-        GetComponent<ScoreComponentScript>().resetScore();
         xPos = 0f;
+		GameObject.Find("ScoreComponent").GetComponent<ScoreComponentScript>().resetScore();
         gameObject.GetComponentsInChildren<Canvas>(true).FirstOrDefault(x => x.name == "DeadMenu").gameObject.SetActive(false);
         _dead = false;
         
