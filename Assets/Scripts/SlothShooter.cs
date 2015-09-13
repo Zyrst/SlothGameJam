@@ -15,7 +15,7 @@ public class SlothShooter : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        if (_fireTimer <= 0 && Input.GetMouseButton(0)) {
+        if (_fireTimer <= 0 && (Input.GetMouseButton(0) || Input.GetKey("w"))) {
             /*GameObject g = Instantiate(_projectile);
             g.transform.position = transform.position + new Vector3(0, 0, 2);
 
