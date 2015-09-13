@@ -158,7 +158,7 @@ public class SlothRider : MonoBehaviour {
     {
         transform.position = Vector3.zero;  //Set it in Zero (doesn't work on X : S)
         _body.useGravity = true;
-        GetComponent<ScoreComponentScript>().resetScore(); 
+		GameObject.Find("ScoreComponent").GetComponent<ScoreComponentScript>().resetScore();
 
         gameObject.GetComponentsInChildren<Canvas>(true).FirstOrDefault(x => x.name == "DeadMenu").gameObject.SetActive(false);
         _dead = false;
