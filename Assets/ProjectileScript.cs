@@ -21,6 +21,7 @@ public class ProjectileScript : MonoBehaviour {
 
     void OnCollisionEnter(Collision collision) {
         Instantiate(_explosionPrefab, transform.position, Quaternion.identity);
+		Destroy(this.transform.gameObject);
     }
 
     public void setPlayer(GameObject player) {
